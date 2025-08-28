@@ -242,7 +242,6 @@ const ActionButton = styled(Button)(({ theme }) => ({
 }));
 
 export const MainPortal: React.FC = () => {
-  const theme = useTheme();
   
   const handleContact = (method: string) => {
     switch(method) {
