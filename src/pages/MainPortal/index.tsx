@@ -4,7 +4,6 @@ import {
   Typography,
   IconButton,
   Avatar,
-  useTheme,
   alpha,
   keyframes,
   styled,
