@@ -4,11 +4,11 @@ export const STORAGE_KEY = 'lt_access_token';
 export type AccessToken = {
   token: string;
   exp: number; // epoch ms
-  sig: string; // cópia do VITE_ACCESS_HASH vigente
+  sig: string; // cópia do VITE_ACCESS_PROJECT_HASH vigente
 };
 
 function getEnvHash(): string {
-  return (import.meta.env.VITE_ACCESS_HASH ?? '') as string;
+  return (import.meta.env.VITE_ACCESS_PROJECT_HASH ?? '') as string;
 }
 
 function getTTLMinutes(): number {
