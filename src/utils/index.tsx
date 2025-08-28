@@ -62,5 +62,23 @@ export const projectsData: ProjectData = {
       },
     ],
     apiDocs: 'https://firecloud-qui3.onrender.com/docs'
+  },
+  chatbot: {
+    id: 'chatbot',
+    title: 'Chatbot Inteligente',
+    description: 'Protótipo de chatbot integrado à API da OpenAI para consumo de dados externos com NLP',
+    image: '@/assets/img/chatbot.png',
+    demoUrl: 'https://chatbot.vercel.app',
+    credentials: [
+      {
+        id: 'user_demo',
+        api_key: "",
+        description: 'Acesso para testar funcionalidades do chatbot',
+        role: "",
+        username: "",
+        password: ""
+      },
+    ],
+    apiDocs: 'https://chatbot-api.vercel.app/docs'
   }
 };

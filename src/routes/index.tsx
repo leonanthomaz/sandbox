@@ -5,6 +5,7 @@ import { ProjectView } from '../pages/ProjectView';
 import NotFound from '../pages/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import { MainPortal } from '../pages/MainPortal';
+import ChatTestPage from '../pages/ChatView';
 
 const AppRouter: React.FC = () => {
   return (
@@ -22,6 +23,8 @@ const AppRouter: React.FC = () => {
           }
         />
 
+        <Route path='/sandbox/chat' element={<ProtectedRoute><ChatTestPage /></ProtectedRoute>}/>
+        
         {/* fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>

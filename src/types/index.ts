@@ -13,10 +13,12 @@ export interface Credential {
   role: string;
   username: string;
   password: string;
+  api_key?: string;
   description: string;
 }
 
 export interface ProjectData {
   thomaggio: Project;
   firecloud: Project;
+  chatbot: Project;
 }
