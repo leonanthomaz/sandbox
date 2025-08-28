@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/webp" href="/src/assets/img/showcase.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Leonan Thomaz - Portal de Projetos | Desenvolvedor Python</title>
+    <meta name="title" content="Leonan Thomaz - Portal de Projetos | Desenvolvedor Python | Desenvolvedor Full Stack">
+    <meta name="description" content="Portal técnico com projetos em destaque de Leonan Thomaz. Demonstração de habilidades em React, TypeScript e desenvolvimento full stack.">
+    <meta name="keywords" content="leonan thomaz, desenvolvedor, full stack, react, typescript, projetos, portfólio, programador">
+    <meta name="author" content="Leonan Thomaz">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://seusite.com/">
+    <meta property="og:title" content="Leonan Thomaz - Portal de Projetos | Desenvolvedor Python | Desenvolvedor Full Stack">
+    <meta property="og:description" content="Portal técnico com projetos em destaque de Leonan Thomaz. Demonstração de habilidades em desenvolvimento full stack.">
+    <meta property="og:image" content="https://seusite.com/preview.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://seusite.com/">
+    <meta property="twitter:title" content="Leonan Thomaz - Portal de Projetos | Desenvolvedor Python | Desenvolvedor Full Stack">
+    <meta property="twitter:description" content="Portal técnico com projetos em destaque de Leonan Thomaz. Demonstração de habilidades em desenvolvimento full stack.">
+    <meta property="twitter:image" content="https://seusite.com/preview.jpg">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preload main font -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    </noscript>
+    
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Leonan Thomaz",
+      "jobTitle": "Desenvolvedor Python | Desenvolvedor Full Stack",
+      "url": "https://seusite.com",
+      "sameAs": [
+        "https://github.com/leonan.thomaz",
+        "https://linkedin.com/in/leonan.thomaz"
+      ],
+      "knowsAbout": ["React", "TypeScript", "Node.js", "Full Stack Development"]
+    }
+    </script>
+    
+    <!-- Critical CSS (opcional - pode ser inline para melhor performance) -->
+    <style>
+      /* Prevent FOUC (Flash of Unstyled Content) */
+      .js-enabled {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      /* Basic layout to prevent layout shift */
+      #root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Loading state */
+      .app-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8edff 100%);
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  
+  <body>
+    <!-- Loading placeholder (removed by React) -->
+    <div id="loading" class="app-loading">
+      <div class="loading-spinner"></div>
+    </div>
+    
+    <div id="root"></div>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Remove loading spinner when app loads -->
+    <script>
+      // Remove loading spinner when React app mounts
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingElement = document.getElementById('loading');
+          if (loadingElement) {
+            loadingElement.style.display = 'none';
+          }
+          document.body.classList.add('js-enabled');
+          document.body.style.opacity = '1';
+        }, 300);
+      });
+      
+      // Basic error handling
+      window.addEventListener('error', function(e) {
+        console.error('Application error:', e.error);
+      });
+    </script>
+    
+    <!-- Analytics (opcional) -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script> -->
+  </body>
+</html>
