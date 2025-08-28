@@ -12,15 +12,14 @@ import {
   Fade,
   Paper,
   Stack,
-  Collapse,
-  alpha
+  Collapse
 } from '@mui/material';
 import {
   ArrowBack,
   Launch,
   Description,
   VpnKey,
-  Link as LinkIcon,
+  Link,
   ExpandMore,
   ExpandLess
 } from '@mui/icons-material';
@@ -82,14 +81,12 @@ export const ProjectView: React.FC = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           position: 'relative',
-          overflow: 'hidden',
           '&::before': {
             content: '""',
             position: 'absolute',
             inset: 0,
-            background: `linear-gradient(135deg, ${theme.palette.background.default} 10%, ${theme.palette.background.paper} 90%)`,
-            opacity: 0.8,
-            backdropFilter: 'blur(10px)',
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+            opacity: 0.85
           }
         }}
       >
@@ -102,14 +99,13 @@ export const ProjectView: React.FC = () => {
               position: 'absolute',
               top: { xs: 16, md: 24 },
               left: { xs: 16, md: 24 },
-              color: theme.palette.text.primary,
-              backgroundColor: alpha(theme.palette.background.paper, 0.6),
-              backdropFilter: 'blur(10px)',
+              color: theme.palette.primary.contrastText,
+              backgroundColor: 'rgba(51, 245, 245, 0.69)',
+              backdropFilter: 'blur(6px)',
               fontWeight: 600,
               borderRadius: 2,
-              border: `1px solid ${alpha(theme.palette.divider, 0.5)}`,
               '&:hover': {
-                backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                backgroundColor: 'rgba(0,0,0,0.6)',
                 transform: 'translateY(-2px)'
               }
             }}
@@ -126,10 +122,9 @@ export const ProjectView: React.FC = () => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             textAlign: 'center',
-            color: theme.palette.text.primary,
+            color: theme.palette.primary.contrastText,
             width: '100%',
-            px: 3,
-            zIndex: 1,
+            px: 3
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
@@ -141,8 +136,7 @@ export const ProjectView: React.FC = () => {
                 height: { xs: 80, md: 90 },
                 width: 'auto',
                 borderRadius: '50%',
-                boxShadow: `0 8px 30px rgba(0,0,0,0.5)`,
-                border: `3px solid ${theme.palette.primary.main}`,
+                boxShadow: `0 8px 24px rgba(0,0,0,0.5)`
               }}
             />
           </Box>
@@ -153,8 +147,7 @@ export const ProjectView: React.FC = () => {
             sx={{
               fontWeight: 700,
               fontSize: { xs: '2rem', md: '2.8rem' },
-              textShadow: '2px 2px 6px rgba(0,0,0,0.6)',
-              color: theme.palette.text.primary,
+              textShadow: '2px 2px 6px rgba(0,0,0,0.6)'
             }}
           >
             {project.title}
@@ -163,9 +156,9 @@ export const ProjectView: React.FC = () => {
           <Typography
             variant="h6"
             sx={{
-              opacity: 0.8,
+              opacity: 0.9,
               fontSize: { xs: '1rem', md: '1.15rem' },
-              textShadow: '1px 1px 3px rgba(0,0,0,0.6)',
+              textShadow: '1px 1px 3px rgba(0,0,0,0.6)'
             }}
           >
             {project.description}
@@ -207,7 +200,7 @@ export const ProjectView: React.FC = () => {
               >
                 <CardContent sx={{ p: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <LinkIcon color="primary" sx={{ mr: 2 }} />
+                    <Link color="primary" sx={{ mr: 2 }} />
                     <Typography variant="h5" fontWeight={700}>
                       Acesso Rápido
                     </Typography>
@@ -230,7 +223,7 @@ export const ProjectView: React.FC = () => {
                         '&:hover': {
                           backgroundColor: theme.palette.primary.dark,
                           transform: 'translateY(-2px)',
-                          boxShadow: '0 6px 18px rgba(105, 240, 174, 0.4)'
+                          boxShadow: '0 6px 18px rgba(255,235,59,0.3)'
                         }
                       }}
                     >
@@ -250,12 +243,9 @@ export const ProjectView: React.FC = () => {
                           fontSize: '1.05rem',
                           fontWeight: 700,
                           borderWidth: 2,
-                          borderColor: theme.palette.primary.light,
-                          color: theme.palette.primary.light,
                           '&:hover': {
                             borderWidth: 2,
-                            transform: 'translateY(-2px)',
-                            borderColor: theme.palette.primary.main
+                            transform: 'translateY(-2px)'
                           }
                         }}
                       >
@@ -304,8 +294,8 @@ export const ProjectView: React.FC = () => {
                   </Box>
 
                   <Stack spacing={2}>
-                    <Collapse in={true} timeout="auto" unmountOnExit>
-                      {[...initialCredentials].map((credential) => (
+                    {[...initialCredentials, ...(expandedCredentials ? extraCredentials : [])].map(
+                      (credential) => (
                         <Paper
                           key={credential.id}
                           elevation={2}
@@ -331,65 +321,23 @@ export const ProjectView: React.FC = () => {
                             <Chip
                               label="Ver credenciais"
                               size="small"
-                              color="secondary"
+                              color="primary"
                               variant="outlined"
                               clickable
                             />
                           </Box>
+
                           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                             {credential.description}
                           </Typography>
+
                           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                            <Chip label="Usuário" size="small" variant="filled" color="primary" />
-                            <Chip label="Senha" size="small" variant="filled" color="primary" />
+                            <Chip label="Usuário" size="small" variant="filled" color="success" />
+                            <Chip label="Senha" size="small" variant="filled" color="success" />
                           </Box>
                         </Paper>
-                      ))}
-                    </Collapse>
-                    <Collapse in={expandedCredentials} timeout="auto" unmountOnExit>
-                      <Stack spacing={2}>
-                        {extraCredentials.map((credential) => (
-                          <Paper
-                            key={credential.id}
-                            elevation={2}
-                            sx={{
-                              p: 3,
-                              borderRadius: 2,
-                              cursor: 'pointer',
-                              transition: 'all 0.25s ease',
-                              border: `1px solid ${theme.palette.divider}`,
-                              bgcolor: theme.palette.background.default,
-                              '&:hover': {
-                                transform: 'translateY(-3px)',
-                                boxShadow: theme.shadows[6],
-                                borderColor: theme.palette.primary.light
-                              }
-                            }}
-                            onClick={() => handleCredentialClick(credential)}
-                          >
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
-                              <Typography variant="h6" fontWeight={600}>
-                                {credential.role}
-                              </Typography>
-                              <Chip
-                                label="Ver credenciais"
-                                size="small"
-                                color="secondary"
-                                variant="outlined"
-                                clickable
-                              />
-                            </Box>
-                            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                              {credential.description}
-                            </Typography>
-                            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                              <Chip label="Usuário" size="small" variant="filled" color="primary" />
-                              <Chip label="Senha" size="small" variant="filled" color="primary" />
-                            </Box>
-                          </Paper>
-                        ))}
-                      </Stack>
-                    </Collapse>
+                      )
+                    )}
                   </Stack>
                 </CardContent>
               </Card>
