@@ -32,7 +32,7 @@
 
 // // Banners e logos
 // import thomaggioBanner from '@/assets/img/banner-thomaggio.jpg';
-// import firecloudBanner from '@/assets/img/banner-firecloud.jpg';
+// import firecloudBanner from '@/assets/img/banner-firecloud.png';
 // import thomaggioLogo from '@/assets/img/thomaggio.png';
 // import firecloudLogo from '@/assets/img/firecloud.png';
 // import { ProjectTreeView } from '../../components/TreeView';

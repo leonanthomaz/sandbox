@@ -2,7 +2,7 @@ import type { ProjectData } from "../types";
 
 // Banners e logos
 import thomaggioBanner from '@/assets/img/banner-thomaggio.jpg';
-import firecloudBanner from '@/assets/img/banner-firecloud.jpg';
+import firecloudBanner from '@/assets/img/banner-firecloud.png';
 import chatbotBanner from '@/assets/img/banner-chatbot.jpg';
 
 import thomaggioLogo from '@/assets/img/thomaggio.png';
