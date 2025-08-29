@@ -32,7 +32,6 @@ interface LiveDemoPreviewProps {
 }
 
 export const LiveDemoPreview: React.FC<LiveDemoPreviewProps> = ({
-  projectId,
   demoUrl,
   projectTitle
 }) => {
