@@ -15,13 +15,13 @@ export const projectsData: ProjectData = {
         password: 'admin_sys123',
         description: 'Acesso completo ao sistema'
       },
-      {
-        id: 'admin',
-        role: 'Administrador Comum',
-        username: 'admin@thomaggio.com',
-        password: 'admin123',
-        description: 'Acesso parcial ao sistema'
-      },
+      // {
+      //   id: 'admin',
+      //   role: 'Administrador Comum',
+      //   username: 'admin@thomaggio.com',
+      //   password: 'admin123',
+      //   description: 'Acesso parcial ao sistema'
+      // },
     ],
     githubUrl: "https://github.com/leonanthomaz/thomaggio",
     apiDocs: 'https://api.thomaggio.com/docs'
