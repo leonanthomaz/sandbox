@@ -25,8 +25,9 @@ import {
   ExpandLess,
   Chat as ChatIcon,
   // Code as CodeIcon
+  GitHub as GitHubIcon
 } from '@mui/icons-material';
-import { projectsData } from '../../utils';
+import { projectsData } from '../../data';
 import { CredentialsModal } from '../../components/CredentialsModal/CredentialsModal';
 
 // Banners e logos
@@ -34,6 +35,8 @@ import thomaggioBanner from '@/assets/img/banner-thomaggio.jpg';
 import firecloudBanner from '@/assets/img/banner-firecloud.jpg';
 import thomaggioLogo from '@/assets/img/thomaggio.png';
 import firecloudLogo from '@/assets/img/firecloud.png';
+import { ProjectTreeView } from '../../components/TreeView';
+import { LiveDemoPreview } from '../../components/LiveDemoPreview';
 
 export const ProjectView: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -178,9 +181,9 @@ export const ProjectView: React.FC = () => {
                   src={projectLogo}
                   alt={`${project?.title} Logo`}
                   sx={{
-                    height: { xs: 80, md: 90 },
+                    height: { xs: 80, md: 150 },
                     width: 'auto',
-                    borderRadius: '50%',
+                    borderRadius: '10%',
                     boxShadow: `0 8px 30px rgba(0,0,0,0.5)`,
                     border: `3px solid ${theme.palette.primary.main}`,
                   }}
@@ -328,11 +331,39 @@ export const ProjectView: React.FC = () => {
                             API Documentation
                           </Button>
                         )}
+
+                        {
+                          project?.githubUrl && (
+                            <Button
+                              variant="outlined"
+                              href={`${project.githubUrl}`}
+                              target="_blank"
+                              fullWidth
+                              size="large"
+                              startIcon={<GitHubIcon />}
+                              sx={{
+                                py: 2,
+                                fontSize: '1.05rem',
+                                fontWeight: 700,
+                                borderColor: theme.palette.text.primary,
+                                color: theme.palette.text.primary,
+                                '&:hover': {
+                                  borderWidth: 2,
+                                  transform: 'translateY(-2px)',
+                                  borderColor: theme.palette.primary.main,
+                                  color: theme.palette.primary.main
+                                },
+                              }}
+                            >
+                              Acessar Repositório
+                            </Button>
+                          )
+                        }
                       </>
                     )}
                   </Stack>
                 </CardContent>
-              </Card>
+              </Card>            
             </Box>
 
             {/* Card da Direita - Credenciais ou Info do Sandbox */}
@@ -505,6 +536,23 @@ export const ProjectView: React.FC = () => {
             </Box>
           </Box>
         </Fade>
+
+        {project?.tree && (
+          <Box sx={{ mt: 4 }}>
+            <ProjectTreeView 
+              data={project.tree} 
+              projectName={project.title} 
+            />
+          </Box>
+        )}
+
+        {project?.demoUrl && (
+          <LiveDemoPreview
+            projectId={project.id}
+            demoUrl={project.demoUrl}
+            projectTitle={project.title}
+          />
+        )}
 
         <CredentialsModal
           open={modalOpen}

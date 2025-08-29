@@ -1,3 +1,12 @@
+export interface ProjectNode {
+  id: string;
+  name: string;
+  type: 'folder' | 'file' | 'service' | 'api' | 'ai' | 'database' | 'config';
+  description?: string;
+  technologies?: string[];
+  children?: ProjectNode[];
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -6,6 +15,8 @@ export interface Project {
   demoUrl: string;
   credentials: Credential[];
   apiDocs?: string;
+  githubUrl?: string;
+  tree?: ProjectNode[];
 }
 
 export interface Credential {
