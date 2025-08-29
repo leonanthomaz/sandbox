@@ -15,6 +15,7 @@ export interface Project {
   demoUrl: string;
   credentials: Credential[];
   apiDocs?: string;
+  dashboardUrl?: string;
   githubUrl?: string;
   tree?: ProjectNode[];
 }

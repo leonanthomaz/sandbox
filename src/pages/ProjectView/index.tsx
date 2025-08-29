@@ -418,6 +418,7 @@ export const ProjectView: React.FC = () => {
                     // Credenciais (layout original)
                     <>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                        {/* Lado esquerdo: ícone + título */}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <VpnKey color="primary" sx={{ mr: 2 }} />
                           <Typography variant="h5" fontWeight={700}>
@@ -425,21 +426,54 @@ export const ProjectView: React.FC = () => {
                           </Typography>
                         </Box>
 
-                        {showToggle && (
+                        {/* Lado direito: botão painel + toggle */}
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                           <Button
-                            onClick={toggleCredentials}
-                            sx={{
-                              color: theme.palette.primary.main,
-                              textTransform: 'none',
-                              fontWeight: 600,
-                              '&:hover': { backgroundColor: 'transparent' }
+                            variant="contained"
+                            onClick={() => {
+                              if (project?.dashboardUrl) {
+                                window.open(project.dashboardUrl, "_blank"); // abre em nova aba
+                              } else {
+                                navigate("/"); // fallback interno
+                              }
                             }}
-                            endIcon={expandedCredentials ? <ExpandLess /> : <ExpandMore />}
+                            size="small"
+                            startIcon={<Launch />}
+                            sx={{
+                              py: 1,
+                              px: 2,
+                              fontSize: "0.95rem",
+                              fontWeight: 700,
+                              backgroundColor: theme.palette.primary.main,
+                              color: theme.palette.primary.contrastText,
+                              "&:hover": {
+                                backgroundColor: theme.palette.primary.dark,
+                                transform: "translateY(-2px)",
+                                boxShadow: "0 6px 18px rgba(105, 240, 174, 0.4)",
+                              },
+                            }}
                           >
-                            {expandedCredentials ? 'Ver menos' : 'Ver mais'}
+                            Ir para Adm
                           </Button>
-                        )}
+
+
+                          {showToggle && (
+                            <Button
+                              onClick={toggleCredentials}
+                              sx={{
+                                color: theme.palette.primary.main,
+                                textTransform: 'none',
+                                fontWeight: 600,
+                                '&:hover': { backgroundColor: 'transparent' }
+                              }}
+                              endIcon={expandedCredentials ? <ExpandLess /> : <ExpandMore />}
+                            >
+                              {expandedCredentials ? 'Ver menos' : 'Ver mais'}
+                            </Button>
+                          )}
+                        </Box>
                       </Box>
+
 
                       <Stack spacing={2}>
                         <Collapse in={true} timeout="auto" unmountOnExit>
@@ -536,7 +570,7 @@ export const ProjectView: React.FC = () => {
             </Box>
           </Box>
         </Fade>
-
+        
         {project?.tree && (
           <Box sx={{ mt: 4 }}>
             <ProjectTreeView 
@@ -546,7 +580,7 @@ export const ProjectView: React.FC = () => {
           </Box>
         )}
 
-        {project?.demoUrl && (
+        {project?.demoUrl && !isChatSandbox && (
           <LiveDemoPreview
             projectId={project.id}
             demoUrl={project.demoUrl}

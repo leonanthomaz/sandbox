@@ -6,7 +6,7 @@ export const projectsData: ProjectData = {
     title: 'Thomaggio',
     description: 'Sistema de delivery de pizzaria online',
     image: '@/assets/img/thomaggio.png',
-    demoUrl: 'https://thomaggio.vercel.app',
+    demoUrl: 'https://thomaggio-frontend.vercel.app',
     credentials: [
       {
         id: 'admin_system',
@@ -15,14 +15,15 @@ export const projectsData: ProjectData = {
         password: 'admin_sys123',
         description: 'Acesso completo ao sistema'
       },
-      // {
-      //   id: 'admin',
-      //   role: 'Administrador Comum',
-      //   username: 'admin@thomaggio.com',
-      //   password: 'admin123',
-      //   description: 'Acesso parcial ao sistema'
-      // },
+      {
+        id: 'admin',
+        role: 'Administrador Comum',
+        username: 'admin@thomaggio.com',
+        password: 'admin123',
+        description: 'Acesso parcial ao sistema'
+      },
     ],
+    dashboardUrl: 'https://thomaggio-admin.vercel.app',
     githubUrl: "https://github.com/leonanthomaz/thomaggio",
     apiDocs: 'https://api.thomaggio.com/docs'
   },
@@ -212,6 +213,7 @@ export const projectsData: ProjectData = {
         description: 'Interface do usuário'
       },
     ],
+    dashboardUrl: 'https://firecloud-admin.vercel.app',
     githubUrl: "https://github.com/leonanthomaz/firecloud",
     apiDocs: 'https://firecloud-qui3.onrender.com/docs'
   },
