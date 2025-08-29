@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -21,25 +21,20 @@ import { projectsData } from '../../data';
 import { useGlobal } from '../../context/GlobalContext';
 import { ProjectActionsCard } from '../../components/ProjectActionsCard';
 import { ProjectHeader } from '../../components/Header';
+import chatbotBanner from '@/assets/img/banner-chatbot.jpg';
 
 export const ProjectView: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const theme = useTheme();
-  const { setLoading } = useGlobal();
+  const { isLoading } = useGlobal();
   
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
   const project = projectId ? projectsData[projectId as keyof typeof projectsData] : null;
 
   // Verifica se é o sandbox do chatbot
   const isChatSandbox = projectId === 'chatbot';
 
-  if (!project && !isChatSandbox) {
+  if (!project && !isChatSandbox && isLoading) {
     return (
       <Container>
         <Typography variant="h4" color="error">Projeto não encontrado</Typography>
@@ -61,6 +56,7 @@ export const ProjectView: React.FC = () => {
         <ProjectHeader
           title="Chatbot Sandbox"
           description="Ambiente de testes para desenvolvimento e validação de chatbots"
+          backgroundImage={chatbotBanner}
           gradientColors={{
             start: theme.palette.primary.main,
             end: theme.palette.secondary.main
@@ -266,9 +262,15 @@ export const ProjectView: React.FC = () => {
             </Box>
 
             {/* Card da Direita - Painel de Ações */}
+            {!isChatSandbox ? 
+            <Box sx={{ width: { xs: '100%', md: '60%' } }}>
+              {projectId && <ProjectActionsCard projectId={projectId} credentials />}
+            </Box>
+            : 
             <Box sx={{ width: { xs: '100%', md: '60%' } }}>
               {projectId && <ProjectActionsCard projectId={projectId} />}
             </Box>
+            }
           </Box>
         </Fade>
       </Container>

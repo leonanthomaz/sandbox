@@ -3,9 +3,13 @@ import type { ProjectData } from "../types";
 // Banners e logos
 import thomaggioBanner from '@/assets/img/banner-thomaggio.jpg';
 import firecloudBanner from '@/assets/img/banner-firecloud.jpg';
+import chatbotBanner from '@/assets/img/banner-chatbot.jpg';
+
 import thomaggioLogo from '@/assets/img/thomaggio.png';
 import firecloudLogo from '@/assets/img/firecloud.png';
+
 import { firecloudBackendTree } from "./tree_firecloud";
+import { chatbotTree } from "./tree_chatbot";
 
 export const projectsData: ProjectData = {
   thomaggio: {
@@ -61,156 +65,6 @@ export const projectsData: ProjectData = {
       },
     ],
     tree: [firecloudBackendTree],
-    // tree: [
-    //   {
-    //     id: 'backend',
-    //     name: 'Backend Python',
-    //     type: 'folder',
-    //     technologies: ['Python', 'FastAPI', 'PostgreSQL'],
-    //     children: [
-    //       {
-    //         id: 'app',
-    //         name: 'app/',
-    //         type: 'folder',
-    //         children: [
-    //           {
-    //             id: 'api',
-    //             name: 'api/',
-    //             type: 'folder',
-    //             description: 'Todas as rotas da API',
-    //             children: [
-    //               {
-    //                 id: 'routes',
-    //                 name: 'routes/',
-    //                 type: 'folder',
-    //                 children: [
-    //                   {
-    //                     id: 'admin',
-    //                     name: 'admin/',
-    //                     type: 'folder',
-    //                     description: 'Rotas administrativas',
-    //                     children: [
-    //                       { id: 'company-py', name: 'company.py', type: 'file' },
-    //                       { id: 'users-py', name: 'users.py', type: 'file' }
-    //                     ]
-    //                   },
-    //                   {
-    //                     id: 'analytics',
-    //                     name: 'analytics/',
-    //                     type: 'folder',
-    //                     description: 'Análises e métricas',
-    //                     children: [
-    //                       { id: 'analytics-py', name: 'analytics.py', type: 'file' }
-    //                     ]
-    //                   },
-    //                   {
-    //                     id: 'chat',
-    //                     name: 'chat/',
-    //                     type: 'folder',
-    //                     description: 'Sistema de chat principal',
-    //                     children: [
-    //                       { id: 'assistant-py', name: 'assistant.py', type: 'file' },
-    //                       { id: 'chat-py', name: 'chat.py', type: 'file' },
-    //                       { id: 'interaction-py', name: 'interaction.py', type: 'file' }
-    //                     ]
-    //                   },
-    //                   {
-    //                     id: 'company-routes',
-    //                     name: 'company/',
-    //                     type: 'folder',
-    //                     description: 'Gestão de empresas',
-    //                     children: [
-    //                       { id: 'company-route-py', name: 'company.py', type: 'file' },
-    //                       { id: 'register-py', name: 'register.py', type: 'file' }
-    //                     ]
-    //                   }
-    //                 ]
-    //               }
-    //             ]
-    //           },
-    //           {
-    //             id: 'gateway',
-    //             name: 'gateway/',
-    //             type: 'folder',
-    //             description: 'Integrações e provedores externos',
-    //             children: [
-    //               {
-    //                 id: 'chatbot-gateway',
-    //                 name: 'chatbot/',
-    //                 type: 'folder',
-    //                 children: [
-    //                   {
-    //                     id: 'nlp',
-    //                     name: 'nlp/',
-    //                     type: 'folder',
-    //                     description: 'Processamento de linguagem natural',
-    //                     children: [
-    //                       { id: 'context-classifier', name: 'context_classifier.py', type: 'file' },
-    //                       { id: 'sentiment-classifier', name: 'sentiment_classifier.py', type: 'file' }
-    //                     ]
-    //                   },
-    //                   {
-    //                     id: 'providers',
-    //                     name: 'providers/',
-    //                     type: 'folder',
-    //                     description: 'Provedores de IA',
-    //                     children: [
-    //                       { id: 'openai-py', name: 'openai.py', type: 'file' },
-    //                       { id: 'gemini-py', name: 'gemini.py', type: 'file' }
-    //                     ]
-    //                   }
-    //                 ]
-    //               }
-    //             ]
-    //           },
-    //           {
-    //             id: 'models',
-    //             name: 'models/',
-    //             type: 'folder',
-    //             description: 'Modelos de banco de dados',
-    //             children: [
-    //               { id: 'chat-models', name: 'chat/', type: 'folder' },
-    //               { id: 'company-models', name: 'company/', type: 'folder' },
-    //               { id: 'user-models', name: 'user/', type: 'folder' }
-    //             ]
-    //           },
-    //           {
-    //             id: 'services',
-    //             name: 'services/',
-    //             type: 'folder',
-    //             description: 'Serviços externos',
-    //             children: [
-    //               {
-    //                 id: 'email-service',
-    //                 name: 'email/',
-    //                 type: 'folder',
-    //                 children: [
-    //                   { id: 'templates', name: 'templates/', type: 'folder' }
-    //                 ]
-    //               }
-    //             ]
-    //           }
-    //         ]
-    //       },
-    //       {
-    //         id: 'database',
-    //         name: 'database/',
-    //         type: 'folder',
-    //         description: 'Configuração do banco de dados',
-    //         children: [
-    //           { id: 'connection-py', name: 'connection.py', type: 'file' }
-    //         ]
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     id: 'frontend',
-    //     name: 'Frontend',
-    //     type: 'folder',
-    //     technologies: ['React', 'TypeScript', 'Material-UI'],
-    //     description: 'Interface do usuário'
-    //   },
-    // ],
     dashboardUrl: 'https://firecloud-admin.vercel.app',
     githubUrl: "https://github.com/leonanthomaz/firecloud",
     apiDocs: 'https://firecloud-qui3.onrender.com/docs'
@@ -219,6 +73,8 @@ export const projectsData: ProjectData = {
     id: 'chatbot',
     title: 'Chatbot Inteligente',
     description: 'Protótipo de chatbot integrado à API da OpenAI para consumo de dados externos com NLP',
+    tree: [chatbotTree],
+    bannerImg: chatbotBanner,
     image: '@/assets/img/chatbot.png',
     demoUrl: 'https://chatbot.vercel.app',
     credentials: [

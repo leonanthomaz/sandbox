@@ -1,13 +1,14 @@
 import React from 'react';
-import { Box, Card, CardContent, Typography, Button, Stack, useTheme } from '@mui/material';
-import { VpnKey, AccountTree, Launch } from '@mui/icons-material';
+import { Card, CardContent, Typography, Button, Stack, useTheme } from '@mui/material';
+import { VpnKey, AccountTree } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 interface ProjectActionsCardProps {
   projectId: string;
+  credentials?: boolean;
 }
 
-export const ProjectActionsCard: React.FC<ProjectActionsCardProps> = ({ projectId }) => {
+export const ProjectActionsCard: React.FC<ProjectActionsCardProps> = ({ projectId, credentials }) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -27,7 +28,10 @@ export const ProjectActionsCard: React.FC<ProjectActionsCardProps> = ({ projectI
         </Typography>
 
         <Stack spacing={2}>
+          
           {/* Testar Credenciais */}
+          
+          {credentials ?
           <Button
             variant="contained"
             startIcon={<VpnKey />}
@@ -49,6 +53,8 @@ export const ProjectActionsCard: React.FC<ProjectActionsCardProps> = ({ projectI
           >
             Testar Credenciais
           </Button>
+          : ""}
+          
 
           {/* Visualizar Tree */}
           <Button
@@ -61,12 +67,12 @@ export const ProjectActionsCard: React.FC<ProjectActionsCardProps> = ({ projectI
               py: 2,
               fontWeight: 700,
               borderColor: theme.palette.success.main,
-              color: theme.palette.success.main,
+              color: theme.palette.primary.dark,
               borderRadius: 2,
               '&:hover': {
                 transform: 'translateY(-2px)',
                 borderColor: theme.palette.success.dark,
-                color: theme.palette.success.dark,
+                color: theme.palette.success.light,
                 boxShadow: `0 4px 12px ${theme.palette.success.main}40`,
               },
             }}

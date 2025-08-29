@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import LoadingPage from '../components/Loading';
 
 interface GlobalContextType {
@@ -14,6 +14,12 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const setLoading = (loading: boolean) => {
     setIsLoading(loading);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <GlobalContext.Provider value={{ isLoading, setLoading }}>

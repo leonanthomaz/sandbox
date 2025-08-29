@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -28,22 +28,25 @@ import { useGlobal } from '../../context/GlobalContext';
 import { ProjectTreeView } from '../../components/TreeView';
 import { ProjectHeader } from '../../components/Header';
 import { TreeNotFoundError } from '../../components/ErrorDisplay';
+import Loading from '../../components/Loading';
 
 // Componente para a página da árvore do projeto
 export const ProjectTreePage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const theme = useTheme();
-  const { setLoading } = useGlobal();
+  const { isLoading } = useGlobal();
   const [zoom, setZoom] = useState(1);
 
   const project = projectId ? projectsData[projectId as keyof typeof projectsData] : null;
 
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
+  if (isLoading) {
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
+  }
 
   if (!project) {
     return (
@@ -158,7 +161,7 @@ export const ProjectTreePage: React.FC = () => {
                       {project.tree
                         .flatMap(node => node.technologies || [])
                         .filter((tech, index, arr) => arr.indexOf(tech) === index)
-                        .slice(0, 5)
+                        .slice(0, 10)
                         .map(tech => (
                           <Chip
                             key={tech}

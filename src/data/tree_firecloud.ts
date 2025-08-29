@@ -1,8 +1,20 @@
-export const firecloudBackendTree = {
+import type { ProjectNode } from "../types";
+
+export const firecloudBackendTree: ProjectNode = {
   id: 'backend',
   name: 'Backend Python',
   type: 'folder',
-  technologies: ['Python', 'FastAPI', 'PostgreSQL'],
+  technologies: [
+    'Python', 
+    'FastAPI', 
+    'PostgreSQL', 
+    'Mercado Pago', 
+    'Websockets', 
+    'Google APIs', 
+    'Web', 
+    'NLP', 
+    'Docker'
+  ],
   children: [
     {
       id: 'app',

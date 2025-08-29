@@ -172,7 +172,6 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 
 // Componentes de erro pré-configurados
 export const TreeNotFoundError: React.FC<{ projectId: string; onBack?: () => void }> = ({ 
-  projectId, 
   onBack 
 }) => {
   const navigate = useNavigate();
@@ -186,7 +185,7 @@ export const TreeNotFoundError: React.FC<{ projectId: string; onBack?: () => voi
       actions={[
         {
           label: 'Voltar ao Projeto',
-          onClick: onBack || (() => navigate(`/${projectId}`)),
+          onClick: onBack || (() => navigate(-1)),
           icon: <ArrowBack />,
           variant: 'contained'
         }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -29,12 +29,13 @@ import {
 import { projectsData } from '../../data';
 import { useGlobal } from '../../context/GlobalContext';
 import { ProjectHeader } from '../../components/Header';
+import Loading from '../../components/Loading';
 
 export const CredentialsPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const theme = useTheme();
-  const { setLoading } = useGlobal();
+  const { isLoading } = useGlobal();
   const [activeTab, setActiveTab] = useState(0);
   const [copiedStates, setCopiedStates] = useState<{[key: string]: boolean}>({});
   const [viewMode, setViewMode] = useState<'site' | 'admin'>('site');
@@ -42,11 +43,13 @@ export const CredentialsPage: React.FC = () => {
 
   const project = projectId ? projectsData[projectId as keyof typeof projectsData] : null;
 
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
+  if (isLoading) {
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
+  }
 
   if (!project) {
     return (

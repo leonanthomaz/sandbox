@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Box,
   Typography,
@@ -7,7 +7,8 @@ import {
   alpha,
   keyframes,
   styled,
-  Button
+  Button,
+  Container
 } from '@mui/material';
 import {
   GitHub,
@@ -18,6 +19,7 @@ import {
 } from '@mui/icons-material';
 import minhaFoto from '@/assets/img/foto-leonan.jpg';
 import { useGlobal } from '../../context/GlobalContext';
+import Loading from '../../components/Loading';
 
 // Animações
 const float = keyframes`
@@ -242,14 +244,15 @@ const ActionButton = styled(Button)(({ theme }) => ({
 
 export const MainPortal: React.FC = () => {
 
-  const { setLoading } = useGlobal();
+  const { isLoading } = useGlobal();
 
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
+  if (isLoading) {
+    return (
+      <Container>
+        <Loading />
+      </Container>
+    );
+  }
   
   const handleContact = (method: string) => {
     switch(method) {
