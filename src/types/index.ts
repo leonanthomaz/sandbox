@@ -1,7 +1,7 @@
 export interface ProjectNode {
   id: string;
   name: string;
-  type: 'folder' | 'file' | 'service' | 'api' | 'ai' | 'database' | 'config';
+  type: 'folder' | 'file' | 'service' | 'api' | 'ai' | 'database' | 'config' | string;
   description?: string;
   technologies?: string[];
   children?: ProjectNode[];
@@ -10,6 +10,8 @@ export interface ProjectNode {
 export interface Project {
   id: string;
   title: string;
+  logoImg?: string;
+  bannerImg?: string;
   description: string;
   image: string;
   demoUrl: string;

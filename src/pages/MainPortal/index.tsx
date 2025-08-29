@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -15,9 +15,9 @@ import {
   Email,
   Phone,
   Launch,
-  Article
 } from '@mui/icons-material';
 import minhaFoto from '@/assets/img/foto-leonan.jpg';
+import { useGlobal } from '../../context/GlobalContext';
 
 // Animações
 const float = keyframes`
@@ -241,6 +241,15 @@ const ActionButton = styled(Button)(({ theme }) => ({
 }));
 
 export const MainPortal: React.FC = () => {
+
+  const { setLoading } = useGlobal();
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   
   const handleContact = (method: string) => {
     switch(method) {
@@ -328,8 +337,8 @@ export const MainPortal: React.FC = () => {
             <ActionButton
               variant="outlined"
               color="primary"
-              endIcon={<Article />}
-              onClick={() => window.open('https://leonanthomaz-blog.vercel.app', '_blank')}
+              endIcon={<GitHub />}
+              onClick={() => window.open('https://github.com/leonanthomaz', '_blank')}
               sx={{
                 borderWidth: '2px',
                 '&:hover': {
@@ -337,7 +346,7 @@ export const MainPortal: React.FC = () => {
                 }
               }}
             >
-              Visitar Blog
+              Meu GitHub
             </ActionButton>
           </Box>
         </InfoContainer>

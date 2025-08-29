@@ -6,6 +6,8 @@ import NotFound from '../pages/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import { MainPortal } from '../pages/MainPortal';
 import ChatTestPage from '../pages/ChatView';
+import { CredentialsPage } from '../pages/CredentialsPage';
+import { ProjectTreePage } from '../pages/TreePage';
 
 const AppRouter: React.FC = () => {
   return (
@@ -25,6 +27,24 @@ const AppRouter: React.FC = () => {
 
         <Route path='/sandbox/chat' element={<ProtectedRoute><ChatTestPage /></ProtectedRoute>}/>
         
+        <Route
+          path="/:projectId/credentials"
+          element={
+            <ProtectedRoute>
+              <CredentialsPage />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
+          path="/:projectId/tree"
+          element={
+            <ProtectedRoute>
+              <ProjectTreePage />
+            </ProtectedRoute>
+          }
+        />
+
         {/* fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>

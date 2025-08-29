@@ -1,4 +1,4 @@
-// import React, { useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 // import { useParams, useNavigate } from 'react-router-dom';
 // import {
 //   Container,
@@ -37,6 +37,7 @@
 // import firecloudLogo from '@/assets/img/firecloud.png';
 // import { ProjectTreeView } from '../../components/TreeView';
 // import { LiveDemoPreview } from '../../components/LiveDemoPreview';
+// import { useGlobal } from '../../context/GlobalContext';
 
 // export const ProjectView: React.FC = () => {
 //   const { projectId } = useParams<{ projectId: string }>();
@@ -45,6 +46,13 @@
 //   const [modalOpen, setModalOpen] = useState(false);
 //   const [selectedCredential, setSelectedCredential] = useState<any>(null);
 //   const [expandedCredentials, setExpandedCredentials] = useState(false);
+//     const { setLoading } = useGlobal();
+  
+//     useEffect(() => {
+//       setLoading(true);
+//       const timer = setTimeout(() => setLoading(false), 1000);
+//       return () => clearTimeout(timer);
+//     }, []);
 
 //   const project = projectId ? projectsData[projectId as keyof typeof projectsData] : null;
 
@@ -258,27 +266,57 @@
 
 //                   <Stack spacing={2}>
 //                     {isChatSandbox ? (
-//                       <Button
-//                         variant="contained"
-//                         onClick={() => navigate('/sandbox/chat')}
-//                         fullWidth
-//                         size="large"
-//                         startIcon={<Launch />}
-//                         sx={{
-//                           py: 2,
-//                           fontSize: '1.05rem',
-//                           fontWeight: 700,
-//                           backgroundColor: theme.palette.primary.main,
-//                           color: theme.palette.primary.contrastText,
-//                           '&:hover': {
-//                             backgroundColor: theme.palette.primary.dark,
-//                             transform: 'translateY(-2px)',
-//                             boxShadow: '0 6px 18px rgba(105, 240, 174, 0.4)'
-//                           }
-//                         }}
-//                       >
-//                         Acessar Sandbox
-//                       </Button>
+//                       <>
+//                         <Button
+//                           variant="contained"
+//                           onClick={() => navigate('/sandbox/chat')}
+//                           fullWidth
+//                           size="large"
+//                           startIcon={<Launch />}
+//                           sx={{
+//                             py: 2,
+//                             fontSize: '1.05rem',
+//                             fontWeight: 700,
+//                             backgroundColor: theme.palette.primary.main,
+//                             color: theme.palette.primary.contrastText,
+//                             '&:hover': {
+//                               backgroundColor: theme.palette.primary.dark,
+//                               transform: 'translateY(-2px)',
+//                               boxShadow: '0 6px 18px rgba(105, 240, 174, 0.4)'
+//                             }
+//                           }}
+//                         >
+//                           Acessar Sandbox
+//                         </Button>
+//                         {
+//                           project?.githubUrl && (
+//                             <Button
+//                               variant="outlined"
+//                               href={`${project.githubUrl}`}
+//                               target="_blank"
+//                               fullWidth
+//                               size="large"
+//                               startIcon={<GitHubIcon />}
+//                               sx={{
+//                                 py: 2,
+//                                 fontSize: '1.05rem',
+//                                 fontWeight: 700,
+//                                 borderColor: theme.palette.text.primary,
+//                                 color: theme.palette.text.primary,
+//                                 '&:hover': {
+//                                   borderWidth: 2,
+//                                   transform: 'translateY(-2px)',
+//                                   borderColor: theme.palette.primary.main,
+//                                   color: theme.palette.primary.main
+//                                 },
+//                               }}
+//                             >
+//                               Acessar Repositório
+//                             </Button>
+//                           )
+//                         }
+//                       </>
+                      
 //                     ) : (
 //                       <>
 //                         {project?.demoUrl && (
@@ -404,10 +442,6 @@
 //                         </Box>
 //                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 //                           <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main', mr: 2 }} />
-//                           <Typography variant="body2">Teste de diferentes cenários</Typography>
-//                         </Box>
-//                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-//                           <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main', mr: 2 }} />
 //                           <Typography variant="body2">Debug e análise de performance</Typography>
 //                         </Box>
 //                       </Stack>
@@ -418,6 +452,7 @@
 //                     // Credenciais (layout original)
 //                     <>
 //                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+//                         {/* Lado esquerdo: ícone + título */}
 //                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
 //                           <VpnKey color="primary" sx={{ mr: 2 }} />
 //                           <Typography variant="h5" fontWeight={700}>
@@ -425,21 +460,54 @@
 //                           </Typography>
 //                         </Box>
 
-//                         {showToggle && (
+//                         {/* Lado direito: botão painel + toggle */}
+//                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 //                           <Button
-//                             onClick={toggleCredentials}
-//                             sx={{
-//                               color: theme.palette.primary.main,
-//                               textTransform: 'none',
-//                               fontWeight: 600,
-//                               '&:hover': { backgroundColor: 'transparent' }
+//                             variant="contained"
+//                             onClick={() => {
+//                               if (project?.dashboardUrl) {
+//                                 window.open(project.dashboardUrl, "_blank"); // abre em nova aba
+//                               } else {
+//                                 navigate("/"); // fallback interno
+//                               }
 //                             }}
-//                             endIcon={expandedCredentials ? <ExpandLess /> : <ExpandMore />}
+//                             size="small"
+//                             startIcon={<Launch />}
+//                             sx={{
+//                               py: 1,
+//                               px: 2,
+//                               fontSize: "0.95rem",
+//                               fontWeight: 700,
+//                               backgroundColor: theme.palette.primary.main,
+//                               color: theme.palette.primary.contrastText,
+//                               "&:hover": {
+//                                 backgroundColor: theme.palette.primary.dark,
+//                                 transform: "translateY(-2px)",
+//                                 boxShadow: "0 6px 18px rgba(105, 240, 174, 0.4)",
+//                               },
+//                             }}
 //                           >
-//                             {expandedCredentials ? 'Ver menos' : 'Ver mais'}
+//                             Ir para Adm
 //                           </Button>
-//                         )}
+
+
+//                           {showToggle && (
+//                             <Button
+//                               onClick={toggleCredentials}
+//                               sx={{
+//                                 color: theme.palette.primary.main,
+//                                 textTransform: 'none',
+//                                 fontWeight: 600,
+//                                 '&:hover': { backgroundColor: 'transparent' }
+//                               }}
+//                               endIcon={expandedCredentials ? <ExpandLess /> : <ExpandMore />}
+//                             >
+//                               {expandedCredentials ? 'Ver menos' : 'Ver mais'}
+//                             </Button>
+//                           )}
+//                         </Box>
 //                       </Box>
+
 
 //                       <Stack spacing={2}>
 //                         <Collapse in={true} timeout="auto" unmountOnExit>
@@ -536,7 +604,7 @@
 //             </Box>
 //           </Box>
 //         </Fade>
-
+        
 //         {project?.tree && (
 //           <Box sx={{ mt: 4 }}>
 //             <ProjectTreeView 
@@ -546,7 +614,7 @@
 //           </Box>
 //         )}
 
-//         {project?.demoUrl && (
+//         {project?.demoUrl && !isChatSandbox && (
 //           <LiveDemoPreview
 //             projectId={project.id}
 //             demoUrl={project.demoUrl}
