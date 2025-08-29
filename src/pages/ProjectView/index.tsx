@@ -258,27 +258,57 @@ export const ProjectView: React.FC = () => {
 
                   <Stack spacing={2}>
                     {isChatSandbox ? (
-                      <Button
-                        variant="contained"
-                        onClick={() => navigate('/sandbox/chat')}
-                        fullWidth
-                        size="large"
-                        startIcon={<Launch />}
-                        sx={{
-                          py: 2,
-                          fontSize: '1.05rem',
-                          fontWeight: 700,
-                          backgroundColor: theme.palette.primary.main,
-                          color: theme.palette.primary.contrastText,
-                          '&:hover': {
-                            backgroundColor: theme.palette.primary.dark,
-                            transform: 'translateY(-2px)',
-                            boxShadow: '0 6px 18px rgba(105, 240, 174, 0.4)'
-                          }
-                        }}
-                      >
-                        Acessar Sandbox
-                      </Button>
+                      <>
+                        <Button
+                          variant="contained"
+                          onClick={() => navigate('/sandbox/chat')}
+                          fullWidth
+                          size="large"
+                          startIcon={<Launch />}
+                          sx={{
+                            py: 2,
+                            fontSize: '1.05rem',
+                            fontWeight: 700,
+                            backgroundColor: theme.palette.primary.main,
+                            color: theme.palette.primary.contrastText,
+                            '&:hover': {
+                              backgroundColor: theme.palette.primary.dark,
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 6px 18px rgba(105, 240, 174, 0.4)'
+                            }
+                          }}
+                        >
+                          Acessar Sandbox
+                        </Button>
+                        {
+                          project?.githubUrl && (
+                            <Button
+                              variant="outlined"
+                              href={`${project.githubUrl}`}
+                              target="_blank"
+                              fullWidth
+                              size="large"
+                              startIcon={<GitHubIcon />}
+                              sx={{
+                                py: 2,
+                                fontSize: '1.05rem',
+                                fontWeight: 700,
+                                borderColor: theme.palette.text.primary,
+                                color: theme.palette.text.primary,
+                                '&:hover': {
+                                  borderWidth: 2,
+                                  transform: 'translateY(-2px)',
+                                  borderColor: theme.palette.primary.main,
+                                  color: theme.palette.primary.main
+                                },
+                              }}
+                            >
+                              Acessar Repositório
+                            </Button>
+                          )
+                        }
+                      </>
+                      
                     ) : (
                       <>
                         {project?.demoUrl && (
@@ -401,10 +431,6 @@ export const ProjectView: React.FC = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main', mr: 2 }} />
                           <Typography variant="body2">Visualização de logs e métricas</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main', mr: 2 }} />
-                          <Typography variant="body2">Teste de diferentes cenários</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main', mr: 2 }} />

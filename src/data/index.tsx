@@ -15,17 +15,10 @@ export const projectsData: ProjectData = {
         password: 'admin_sys123',
         description: 'Acesso completo ao sistema'
       },
-      {
-        id: 'admin',
-        role: 'Administrador Comum',
-        username: 'admin@thomaggio.com',
-        password: 'admin123',
-        description: 'Acesso parcial ao sistema'
-      },
     ],
     dashboardUrl: 'https://thomaggio-admin.vercel.app',
     githubUrl: "https://github.com/leonanthomaz/thomaggio",
-    apiDocs: 'https://api.thomaggio.com/docs'
+    apiDocs: 'https://thomaggio.onrender.com/docs'
   },
   firecloud: {
     id: 'firecloud',
@@ -54,13 +47,6 @@ export const projectsData: ProjectData = {
         username: 'empresa_credito@exemplo.com',
         password: 'empresa_credito123',
         description: 'Simulando uma empresa do Plano Pré Pago'
-      },
-      {
-        id: 'cliente_empresa',
-        role: 'Cliente da Empresa',
-        username: '',
-        password: '',
-        description: 'Acesse http://teste.com'
       },
     ],
     tree: [
