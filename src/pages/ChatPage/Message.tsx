@@ -19,10 +19,10 @@ const Message = ({ sender, text }: MessageProps) => {
 
   const textSx: BoxProps['sx'] = {
     backgroundColor: isSender
-      ? theme.palette.primary.light // Amarelo clarinho
-      : theme.palette.background.paper, // Assistente escuro
+      ? theme.palette.primary.light 
+      : theme.palette.background.default,
     color: isSender ? '#121212' : theme.palette.text.primary,
-    p: theme.spacing(1.5),
+    padding: theme.spacing(1.5, 2.5),
     borderRadius: theme.shape.borderRadius,
     maxWidth: '70%',
     wordBreak: 'break-word',

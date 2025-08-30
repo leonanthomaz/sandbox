@@ -8,6 +8,7 @@ interface ChatWindowProps {
   loading: boolean;
   typing: boolean;
   onSendMessage: (message: string) => void;
+  lastMessageRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 // Definição da animação com keyframes do MUI

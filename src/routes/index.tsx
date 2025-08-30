@@ -5,7 +5,7 @@ import { ProjectView } from '../pages/ProjectView';
 import NotFound from '../pages/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import { MainPortal } from '../pages/MainPortal';
-import ChatTestPage from '../pages/ChatView';
+import ChatTestPage from '../pages/ChatPage';
 import { CredentialsPage } from '../pages/CredentialsPage';
 import { ProjectTreePage } from '../pages/TreePage';
 

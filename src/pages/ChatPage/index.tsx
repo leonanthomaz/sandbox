@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Stack,
@@ -34,7 +34,10 @@ import {
   ErrorOutline as ErrorIcon,
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
+  HelpOutline as HelpOutlineIcon,
+  ChatBubbleOutline as ChatIcon
 } from '@mui/icons-material';
+import { SiPython } from 'react-icons/si';
 
 import ChatWindow from './ChatWindow';
 import type { ChatMessage, ChatPostParams, ChatResponseTest } from '../../types/chat';
@@ -57,12 +60,31 @@ const ChatTestPage = () => {
   const [apiResponse, setApiResponse] = useState<ChatResponseTest | null>(null);
   const [configOpen, setConfigOpen] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
+  const [openHelp, setOpenHelp] = useState(false);
   const [stats, setStats] = useState({
     totalTokens: 0,
     avgResponseTime: 0,
     successfulCalls: 0,
     errorCalls: 0,
   });
+
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const debugContainerRef = useRef<HTMLDivElement>(null);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+
+  // Scroll automático para o final das conversas
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [chat, typing]);
+
+  // Scroll automático para o final do debug quando houver nova resposta
+  useEffect(() => {
+    if (debugContainerRef.current && apiResponse) {
+      debugContainerRef.current.scrollTop = debugContainerRef.current.scrollHeight;
+    }
+  }, [apiResponse]);
 
   const [apiConfig, setApiConfig] = useState<ApiConfig>({
     apiKey: localStorage.getItem('apiKey') || '',
@@ -96,6 +118,7 @@ const ChatTestPage = () => {
     setTyping(true);
 
     const chatData: ChatPostParams = {
+      companyId: 1,
       message,
       chatCode: apiResponse?.chat_code || null,
       apiKey: apiConfig.apiKey,
@@ -164,6 +187,7 @@ const ChatTestPage = () => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
+        height: '100vh',
         background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.05)} 0%, ${alpha(theme.palette.background.default, 0.1)} 100%)`,
       }}
     >
@@ -175,7 +199,7 @@ const ChatTestPage = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          flexWrap: 'wrap', // permite quebrar em telas menores
+          flexWrap: 'wrap',
           gap: 1
         }}
       >
@@ -224,13 +248,10 @@ const ChatTestPage = () => {
             </Box>
           </Tooltip>
 
-          <Chip label={apiConfig.model} size={isMobile ? 'small' : 'medium'} icon={<ModelIcon />} variant="outlined" />
+          {!isMobile && (
+              <Chip label={apiConfig.model} size="small" icon={<ModelIcon />} variant="outlined" />
+          )}
 
-          <Tooltip title="Configurações">
-            <IconButton onClick={() => setConfigOpen(true)} size={isMobile ? 'small' : 'medium'}>
-              <SettingsIcon sx={{ color: theme.palette.primary.main }} />
-            </IconButton>
-          </Tooltip>
         </Stack>
       </Box>
 
@@ -243,18 +264,20 @@ const ChatTestPage = () => {
           overflow: 'hidden',
           p: 2,
           gap: 2,
+          minHeight: 0,
         }}
       >
         {/* Painel do Chat */}
         <Paper
           elevation={1}
           sx={{
-            flex: 1,
+            flex: isMobile ? '1 1 50%' : 1, // ocupa metade da tela em mobile
             display: 'flex',
             flexDirection: 'column',
             minWidth: 0,
-            overflow: 'hidden',
+            maxHeight: '100%',
             borderRadius: 2,
+            overflow: 'hidden',
           }}
         >
           <Box
@@ -268,7 +291,11 @@ const ChatTestPage = () => {
             }}
           >
             <Typography variant="subtitle1" fontWeight="medium">
-              💬 Conversa
+
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <ChatIcon sx={{ color: theme.palette.primary.main }} />
+              <Typography fontWeight="medium">Conversa</Typography>
+            </Stack>
             </Typography>
             <Stack direction="row" spacing={1}>
               <Tooltip title="Limpar conversa">
@@ -284,8 +311,17 @@ const ChatTestPage = () => {
             </Stack>
           </Box>
 
-          <Box sx={{ flex: 1, minHeight: 0 }}>
-            <ChatWindow chat={chat} loading={loading} typing={typing} onSendMessage={handleSendMessage} />
+          <Box 
+            sx={{ 
+              flex: 1,
+              minHeight: 0,
+              overflow: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+            ref={chatContainerRef}
+          >
+            <ChatWindow chat={chat} loading={loading} typing={typing} onSendMessage={handleSendMessage} lastMessageRef={lastMessageRef}/>
           </Box>
         </Paper>
 
@@ -293,12 +329,13 @@ const ChatTestPage = () => {
         <Paper
           elevation={1}
           sx={{
-            width: isMobile ? '100%' : '45%',
+            flex: isMobile ? '1 1 50%' : '0 0 45%', // metade da tela em mobile
             display: 'flex',
             flexDirection: 'column',
             minWidth: 0,
-            overflow: 'hidden',
+            maxHeight: '100%',
             borderRadius: 2,
+            overflow: 'hidden',
           }}
         >
           <Box
@@ -308,42 +345,106 @@ const ChatTestPage = () => {
               flexShrink: 0,
             }}
           >
-            <Typography variant="subtitle1" fontWeight="medium">
-              🐛 Painel de Resposta JSON - Debug
-            </Typography>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <SiPython style={{ color: theme.palette.primary.main, fontSize: '1.2rem' }} />
+                <Typography variant="subtitle1" fontWeight="medium">
+                  Painel de Resposta JSON - Debug
+                </Typography>
+              </Stack>
+              <IconButton onClick={() => setOpenHelp(true)}>
+                  <HelpOutlineIcon sx={{ color: theme.palette.primary.main }} />
+              </IconButton>
+            </Stack>
+            
           </Box>
 
-          <Box sx={{ flex: 1, p: 2, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box
+            ref={debugContainerRef}
+            sx={{ flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column', p: 2, gap: 2 }}
+          >
             {!apiResponse ? (
-              <Alert severity="info" icon={<InfoIcon />} sx={{ mt: 2 }}>
+              <Alert severity="info" icon={<InfoIcon />} sx={{ fontSize: '0.8rem' }}>
                 Envie uma mensagem para visualizar a resposta da API
               </Alert>
             ) : (
               <>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <Chip label={`Status: ${apiResponse.status}`} size="small" color={apiResponse.status === 200 ? 'success' : 'error'} />
-                  {apiResponse.token_usage && <Chip label={`Tokens: ${apiResponse.token_usage.total_tokens}`} size="small" variant="outlined" />}
+                  <Chip label={`Prompt tokens: ${
+                    apiResponse.useful_context.token_usage &&
+                    typeof apiResponse.useful_context.token_usage === 'object' &&
+                    'prompt_tokens' in apiResponse.useful_context.token_usage
+                      ? (apiResponse.useful_context.token_usage as { prompt_tokens: number }).prompt_tokens
+                      : '-'
+                  }`} size="small" variant="outlined" />
+                  <Chip label={`Completion tokens: ${
+                    apiResponse.useful_context.token_usage &&
+                    typeof apiResponse.useful_context.token_usage === 'object' &&
+                    'completion_tokens' in apiResponse.useful_context.token_usage
+                      ? (apiResponse.useful_context.token_usage as { completion_tokens: number }).completion_tokens
+                      : '-'
+                  }`} size="small" variant="outlined" />
+
+                  {apiResponse.token_usage && typeof apiResponse.token_usage === 'object' && <Chip label={`Tokens: ${apiResponse.token_usage.total_tokens}`} size="small" variant="outlined" />}
                 </Stack>
                 <Divider />
-                <Box sx={{ flex: 1, overflow: 'auto' }}>
-                  <JsonViewer
-                    value={apiResponse}
-                    rootName="apiResponse"
-                    theme="dark"
-                    displayDataTypes={false}
-                    style={{ borderRadius: 8, padding: 12, backgroundColor: '#1E1E1E', fontSize: '0.85rem', color: '#FFFFFF' }}
-                  />
-                </Box>
                 {apiResponse.useful_context.system_response?.function && (
                   <Alert severity="info" icon={<CodeIcon />}>
                     Ação detectada: <strong>{apiResponse.useful_context.system_response.function}</strong>
                   </Alert>
                 )}
+                <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+                  <JsonViewer
+                    value={apiResponse}
+                    rootName="apiResponse"
+                    theme="dark"
+                    displayDataTypes={false}
+                    style={{
+                      borderRadius: 8,
+                      padding: 12,
+                      backgroundColor: '#1E1E1E',
+                      fontSize: '0.85rem',
+                      color: '#FFFFFF',
+                    }}
+                  />
+                </Box>
               </>
             )}
           </Box>
         </Paper>
       </Box>
+
+      {/* Modal Help */}
+      <Dialog open={openHelp} onClose={() => setOpenHelp(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 'bold' }}>Como agendar</DialogTitle>
+        <DialogContent dividers>
+            <Typography gutterBottom>
+                🟢 <strong>Dias verdes:</strong> Possuem horários disponíveis
+            </Typography>
+            <Typography gutterBottom>
+                🔵 <strong>Modo semana/dia:</strong> Mostra os horários disponíveis
+            </Typography>
+            <Typography gutterBottom>
+                🕒 <strong>Para agendar:</strong> Clique em um horário verde
+            </Typography>
+            {isMobile && (
+                <Typography gutterBottom>
+                    📱 <strong>Mobile:</strong> Toque nos eventos para mais detalhes
+                </Typography>
+            )}
+        </DialogContent>
+        <DialogActions>
+            <Button 
+                onClick={() => setOpenHelp(false)} 
+                variant="contained" 
+                color="primary"
+                sx={{ borderRadius: '8px' }}
+            >
+                Entendi
+            </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Modal Config */}
       <Dialog open={configOpen} onClose={() => setConfigOpen(false)} maxWidth="sm" fullWidth>
