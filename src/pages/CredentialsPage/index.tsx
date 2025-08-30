@@ -96,8 +96,8 @@ export const CredentialsPage: React.FC = () => {
         backgroundImage={project.bannerImg}
         logo={project.logoImg}
         gradientColors={{
-          start: theme.palette.primary.main,
-          end: theme.palette.primary.dark
+          start: theme.palette.info.main,
+          end: theme.palette.common.white
         }}
         backButton={{ 
             text: 'Voltar ao Projeto', 

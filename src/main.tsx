@@ -1,19 +1,30 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import App from './App.tsx'
-import theme from './styles/theme'
-import './styles/global.css'
-import { GlobalProvider } from './context/GlobalContext.tsx'
+// src/main.tsx
+import { createRoot } from 'react-dom/client';
+import { App } from './App';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import useMuiTheme from './styles/theme';
+import { GlobalCss } from './styles/globalStyles';
+import { GlobalProvider } from './context/GlobalContext';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <GlobalProvider>
-        <App />
-      </GlobalProvider>
-    </ThemeProvider>
-  </StrictMode>,
-)
+const Root = () => {
+    return (
+        <MainApp />
+    );
+};
+
+const MainApp = () => {
+    const muiTheme = useMuiTheme;
+
+    return (
+     <MuiThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <GlobalCss />
+        <GlobalProvider> 
+          <App />
+        </GlobalProvider>
+      </MuiThemeProvider>
+    );
+};
+
+createRoot(document.getElementById('root')!).render(<Root />);

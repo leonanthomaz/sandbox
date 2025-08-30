@@ -25,7 +25,13 @@ const AppRouter: React.FC = () => {
           }
         />
 
-        <Route path='/sandbox/chat' element={<ProtectedRoute><ChatTestPage /></ProtectedRoute>}/>
+        <Route 
+          path='/sandbox/chat' 
+          element={
+          <ProtectedRoute>
+            <ChatTestPage />
+          </ProtectedRoute>
+        }/>
         
         <Route
           path="/:projectId/credentials"

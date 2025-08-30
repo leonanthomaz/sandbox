@@ -1,6 +1,6 @@
 import { createTheme, alpha } from '@mui/material/styles';
 
-const theme = createTheme({
+const useMuiTheme = createTheme({
   palette: {
     primary: {
       main: '#FFEB3B', // Amarelo vibrante de volta como primary
@@ -120,7 +120,7 @@ const theme = createTheme({
 });
 
 export const darkTheme = createTheme({
-  ...theme,
+  ...useMuiTheme,
   palette: {
     mode: 'dark',
     primary: {
@@ -147,4 +147,4 @@ export const darkTheme = createTheme({
   },
 });
 
-export default theme;
+export default useMuiTheme;

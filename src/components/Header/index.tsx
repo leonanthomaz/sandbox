@@ -9,6 +9,7 @@ import {
   alpha,
   useMediaQuery
 } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 
 interface BackButtonProps {
   text: string;
@@ -45,12 +46,11 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // ✅ detecta mobile
-
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // pega a segunda parte da URL. Ex: /:projectId/credentials -> "credentials"
   const segments = location.pathname.split('/').filter(Boolean);
-  const secondSegment = segments[1]; // [projectId, secondSegment, ...]
+  const secondSegment = segments[1];
   const allowedPages = new Set(['tree', 'credentials']);
   const shouldShowBack = allowedPages.has(secondSegment || '');
 
@@ -61,72 +61,73 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
     : `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`;
 
   const overlayBackground = gradientColors
-    ? `linear-gradient(135deg, ${alpha(gradientColors.start, 0.7)} 10%, ${alpha(gradientColors.end, 0.7)} 90%)`
-    : `linear-gradient(135deg, ${theme.palette.background.default} 10%, ${theme.palette.background.paper} 90%)`;
+    ? `linear-gradient(135deg, ${alpha(gradientColors.start, 0.85)} 10%, ${alpha(gradientColors.end, 0.85)} 90%)`
+    : `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.8)} 10%, ${alpha(theme.palette.primary.dark, 0.8)} 90%)`;
 
   return (
     <Box
       sx={{
-        height: { xs: '200px', md: '320px' },
+        height: { xs: '240px', md: '340px' },
         backgroundImage: background,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         position: 'relative',
         overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         '&::before': {
           content: '""',
           position: 'absolute',
           inset: 0,
           background: overlayBackground,
-          opacity: isChatSandbox ? 0.9 : 0.8,
-          backdropFilter: 'blur(10px)',
+          opacity: isChatSandbox ? 0.92 : 0.88,
+          backdropFilter: 'blur(8px)',
           zIndex: 0,
         }
       }}
     >
-
-      
-      {/* Botão Início (só aparece nas páginas mapeadas) */}
+      {/* Botão Voltar (só aparece nas páginas mapeadas) */}
       {shouldShowBack && (
-        <Fade in timeout={500}>
+        <Fade in timeout={600}>
           <Button
-            // botão pequeno e discreto
-            variant="text"
-            size="small"
+            variant="contained"
+            size="medium"
             onClick={backButton?.onClick || (() => backButton?.path && navigate(backButton.path))}
+            startIcon={<ArrowBack />}
             sx={{
               position: 'absolute',
-              top: { xs: 12, md: 16 },
-              left: { xs: 12, md: 16 },
+              top: { xs: 16, md: 24 },
+              left: { xs: 16, md: 24 },
               color: theme.palette.getContrastText(theme.palette.primary.main),
-              border: `1px solid ${alpha(theme.palette.primary.dark, 0.5)}`,
-              backgroundColor: theme.palette.primary.main, // ✅ cor sólida
+              backgroundColor: alpha(theme.palette.background.paper, 0.2),
+              backdropFilter: 'blur(10px)',
               fontWeight: 600,
               textTransform: 'none',
-              px: 1.25,
-              minWidth: 'auto',
-              lineHeight: 1.2,
+              px: 2.5,
+              py: 1,
+              borderRadius: 2,
+              border: `1px solid ${alpha(theme.palette.primary.contrastText, 0.2)}`,
               zIndex: 2,
+              transition: 'all 0.2s ease',
               '&:hover': {
-                backgroundColor: theme.palette.primary.dark,
-                transform: 'translateY(-2px)'
+                backgroundColor: alpha(theme.palette.primary.main, 0.9),
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
               }
             }}
           >
-            {isMobile ? 'Início' : 'Voltar ao início'}
+            {isMobile ? 'Voltar' : backButton.text}
           </Button>
         </Fade>
       )}
 
-      {/* Logo e título */}
+      {/* Conteúdo central */}
       <Box
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          position: 'relative',
           textAlign: 'center',
-          color: theme.palette.text.primary,
+          color: theme.palette.getContrastText(gradientColors?.start || theme.palette.primary.main),
           width: '100%',
           px: 3,
           zIndex: 1,
@@ -139,11 +140,14 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
               src={logo}
               alt={logoAlt || `${title} Logo`}
               sx={{
-                height: { xs: 80, md: 150 },
+                height: { xs: 70, md: 120 },
                 width: 'auto',
-                borderRadius: '10%',
-                boxShadow: `0 8px 30px rgba(0,0,0,0.5)`,
-                border: `3px solid ${theme.palette.primary.main}`,
+                borderRadius: '12%',
+                boxShadow: `0 8px 32px rgba(0,0,0,0.2)`,
+                border: `2px solid ${alpha(theme.palette.common.white, 0.3)}`,
+                backgroundColor: alpha(theme.palette.common.white, 0.1),
+                backdropFilter: 'blur(10px)',
+                p: 1
               }}
             />
           </Box>
@@ -153,10 +157,12 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
           variant="h2"
           gutterBottom
           sx={{
-            fontWeight: 700,
-            fontSize: { xs: '2rem', md: '2.8rem' },
-            textShadow: '2px 2px 6px rgba(0,0,0,0.6)',
-            color: isChatSandbox ? 'white' : theme.palette.text.primary,
+            fontWeight: 800,
+            fontSize: { xs: '2rem', md: '3rem' },
+            textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            color: theme.palette.common.white,
+            lineHeight: 1.2,
+            mb: 2
           }}
         >
           {title}
@@ -165,10 +171,13 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({
         <Typography
           variant="h6"
           sx={{
-            opacity: isChatSandbox ? 0.9 : 0.8,
-            fontSize: { xs: '1rem', md: '1.15rem' },
-            textShadow: '1px 1px 3px rgba(0,0,0,0.6)',
-            color: isChatSandbox ? 'white' : theme.palette.text.primary,
+            opacity: 0.9,
+            fontSize: { xs: '1rem', md: '1.2rem' },
+            textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+            color: theme.palette.common.white,
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: 1.5
           }}
         >
           {description}

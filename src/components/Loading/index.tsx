@@ -30,7 +30,7 @@ const Loading = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.65)',
         backdropFilter: 'blur(6px)',
         zIndex: 9999,
         color: 'white',

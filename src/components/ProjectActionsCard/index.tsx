@@ -67,11 +67,11 @@ export const ProjectActionsCard: React.FC<ProjectActionsCardProps> = ({ projectI
               py: 2,
               fontWeight: 700,
               borderColor: theme.palette.success.main,
-              color: theme.palette.primary.dark,
+              color: theme.palette.success.light,
               borderRadius: 2,
               '&:hover': {
                 transform: 'translateY(-2px)',
-                borderColor: theme.palette.success.dark,
+                borderColor: theme.palette.success.light,
                 color: theme.palette.success.light,
                 boxShadow: `0 4px 12px ${theme.palette.success.main}40`,
               },

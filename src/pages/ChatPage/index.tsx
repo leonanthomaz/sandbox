@@ -35,8 +35,17 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
   HelpOutline as HelpOutlineIcon,
-  ChatBubbleOutline as ChatIcon
+  ChatBubbleOutline as ChatIcon,
+  Thermostat as ThermostatIcon
 } from '@mui/icons-material';
+
+import StorageIcon from '@mui/icons-material/Storage';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import FlagIcon from '@mui/icons-material/Flag';
+import HistoryIcon from '@mui/icons-material/History';
+import NumbersIcon from "@mui/icons-material/Numbers";
+
 import { SiPython } from 'react-icons/si';
 
 import ChatWindow from './ChatWindow';
@@ -87,8 +96,10 @@ const ChatTestPage = () => {
   }, [apiResponse]);
 
   const [apiConfig, setApiConfig] = useState<ApiConfig>({
-    apiKey: localStorage.getItem('apiKey') || '',
-    model: localStorage.getItem('model') || 'gpt-3.5-turbo',
+    // apiKey: localStorage.getItem('apiKey') || import.meta.env.VITE_DEEPSEEK_API_KEY || '',
+    apiKey: localStorage.getItem('apiKey') ||  '',
+    // model: localStorage.getItem('model') || import.meta.env.VITE_DEEPSEEK_MODEL || '',
+    model: localStorage.getItem('model') || '',
     temperature: 0.7,
     maxTokens: 500,
   });
@@ -352,9 +363,11 @@ const ChatTestPage = () => {
                   Painel de Resposta JSON - Debug
                 </Typography>
               </Stack>
-              <IconButton onClick={() => setOpenHelp(true)}>
-                  <HelpOutlineIcon sx={{ color: theme.palette.primary.main }} />
-              </IconButton>
+              <Tooltip title="Ajuda">
+                <IconButton onClick={() => setOpenHelp(true)}>
+                    <HelpOutlineIcon sx={{ color: theme.palette.primary.main }} />
+                </IconButton>
+              </Tooltip>
             </Stack>
             
           </Box>
@@ -415,101 +428,192 @@ const ChatTestPage = () => {
         </Paper>
       </Box>
 
+
       {/* Modal Help */}
       <Dialog open={openHelp} onClose={() => setOpenHelp(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 'bold' }}>Como agendar</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "bold" }}>
+          Como interpretar o Debug
+        </DialogTitle>
         <DialogContent dividers>
-            <Typography gutterBottom>
-                🟢 <strong>Dias verdes:</strong> Possuem horários disponíveis
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <StorageIcon color="primary" />
+            <Typography>
+              <strong>useful_context:</strong> Bloco principal com as informações úteis da resposta.
             </Typography>
-            <Typography gutterBottom>
-                🔵 <strong>Modo semana/dia:</strong> Mostra os horários disponíveis
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <ChatIcon color="primary" />
+            <Typography>
+              <strong>user_response:</strong> Texto retornado pela IA para o usuário.
             </Typography>
-            <Typography gutterBottom>
-                🕒 <strong>Para agendar:</strong> Clique em um horário verde
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <PsychologyIcon color="primary" />
+            <Typography>
+              <strong>system_response:</strong> Indica se alguma ação/função foi detectada (<em>function</em>).
             </Typography>
-            {isMobile && (
-                <Typography gutterBottom>
-                    📱 <strong>Mobile:</strong> Toque nos eventos para mais detalhes
-                </Typography>
-            )}
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <AccessTimeIcon color="primary" />
+            <Typography>
+              <strong>timestamp:</strong> Data/hora da interação.
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <SentimentSatisfiedAltIcon color="primary" />
+            <Typography>
+              <strong>sentiment:</strong> Tom da resposta (ex: NEUTRAL, POSITIVE, NEGATIVE).
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <FlagIcon color="primary" />
+            <Typography>
+              <strong>main_intent:</strong> Intenção principal identificada (ex: WELCOME).
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <HistoryIcon color="primary" />
+            <Typography>
+              <strong>history:</strong> Histórico das mensagens trocadas com intenção detectada.
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+            <NumbersIcon color="primary" />
+            <Typography>
+              <strong>token_usage:</strong> Quantidade de tokens usados (prompt, completion, total).
+            </Typography>
+          </Stack>
+
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="body2" color="text.secondary">
+            Use esse painel para depurar a resposta da API e entender melhor como a IA está processando suas mensagens.
+          </Typography>
         </DialogContent>
         <DialogActions>
-            <Button 
-                onClick={() => setOpenHelp(false)} 
-                variant="contained" 
-                color="primary"
-                sx={{ borderRadius: '8px' }}
-            >
-                Entendi
-            </Button>
+          <Button
+            onClick={() => setOpenHelp(false)}
+            variant="contained"
+            color="primary"
+            sx={{ borderRadius: "8px" }}
+          >
+            Entendi
+          </Button>
         </DialogActions>
       </Dialog>
 
       {/* Modal Config */}
-      <Dialog open={configOpen} onClose={() => setConfigOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <SettingsIcon />
-            <Typography variant="h6">Configurações da API</Typography>
-          </Stack>
-        </DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField
-              label="API Key"
-              type={showApiKey ? 'text' : 'password'}
-              value={apiConfig.apiKey}
-              onChange={(e) => setApiConfig({ ...apiConfig, apiKey: e.target.value })}
-              fullWidth
-              placeholder="sk-..."
-              helperText="Sua chave API para autenticação"
-              InputProps={{
-                startAdornment: <VpnKeyIcon sx={{ mr: 1, color: 'text.secondary' }} />,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowApiKey(!showApiKey)} edge="end">
-                      {showApiKey ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              label="Modelo"
-              value={apiConfig.model}
-              onChange={(e) => setApiConfig({ ...apiConfig, model: e.target.value })}
-              fullWidth
-              placeholder="gpt-3.5-turbo"
-              helperText="Modelo do OpenAI a ser utilizado"
-              InputProps={{ startAdornment: <ModelIcon sx={{ mr: 1, color: 'text.secondary' }} /> }}
-            />
-            <TextField
-              label="Temperature"
-              type="number"
-              value={apiConfig.temperature}
-              onChange={(e) => setApiConfig({ ...apiConfig, temperature: parseFloat(e.target.value) })}
-              fullWidth
-              inputProps={{ min: 0, max: 1, step: 0.1 }}
-              helperText="Controla a criatividade das respostas (0-1)"
-            />
-            <TextField
-              label="Max Tokens"
-              type="number"
-              value={apiConfig.maxTokens}
-              onChange={(e) => setApiConfig({ ...apiConfig, maxTokens: parseInt(e.target.value) })}
-              fullWidth
-              helperText="Número máximo de tokens na resposta"
-            />
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfigOpen(false)}>Cancelar</Button>
-          <Button onClick={saveConfig} variant="contained">
-            Salvar
-          </Button>
-        </DialogActions>
-      </Dialog>
+     <Dialog open={configOpen} onClose={() => setConfigOpen(false)} maxWidth="sm" fullWidth>
+      <DialogTitle>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <SettingsIcon />
+          <Typography variant="h6">Configurações da API</Typography>
+        </Stack>
+      </DialogTitle>
+
+      <DialogContent>
+        <Stack spacing={2} sx={{ mt: 1 }}>
+          {/* API Key */}
+          <TextField
+            label="API Key"
+            type={showApiKey ? 'text' : 'password'}
+            value={apiConfig.apiKey}
+            onChange={(e) => setApiConfig({ ...apiConfig, apiKey: e.target.value })}
+            fullWidth
+            placeholder="sk-..."
+            helperText="Sua chave API para autenticação"
+            InputProps={{
+              startAdornment: <VpnKeyIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowApiKey(!showApiKey)} edge="end">
+                    {showApiKey ? (
+                      <VisibilityOffIcon sx={{ color: 'primary.main' }} />
+                    ) : (
+                      <VisibilityIcon sx={{ color: 'primary.main' }} />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              '& input::placeholder': { color: 'white', opacity: 0.6 },
+            }}
+          />
+
+          {/* Modelo */}
+          <TextField
+            label="Modelo"
+            value={apiConfig.model}
+            onChange={(e) => setApiConfig({ ...apiConfig, model: e.target.value })}
+            fullWidth
+            placeholder="gpt-3.5-turbo"
+            helperText="Modelo do OpenAI a ser utilizado"
+            InputProps={{ startAdornment: <ModelIcon sx={{ mr: 1, color: 'text.secondary' }} /> }}
+            sx={{
+              '& input::placeholder': { color: 'white', opacity: 0.6 },
+            }}
+          />
+
+          {/* Temperature */}
+          <TextField
+            label="Temperature"
+            type="number"
+            value={apiConfig.temperature}
+            onChange={(e) =>
+              setApiConfig({ ...apiConfig, temperature: parseFloat(e.target.value) })
+            }
+            fullWidth
+            inputProps={{ min: 0, max: 1, step: 0.1 }}
+            helperText="Controla a criatividade das respostas (0-1)"
+            InputProps={{
+              startAdornment: <ThermostatIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+            }}
+            sx={{
+              '& input::placeholder': { color: 'white', opacity: 0.6 },
+              '& input[type=number]': { MozAppearance: 'textfield' },
+              '& input[type=number]::-webkit-outer-spin-button': { WebkitAppearance: 'none', margin: 0 },
+              '& input[type=number]::-webkit-inner-spin-button': { WebkitAppearance: 'none', margin: 0 },
+            }}
+          />
+
+          {/* Max Tokens */}
+          <TextField
+            label="Max Tokens"
+            type="number"
+            value={apiConfig.maxTokens}
+            onChange={(e) => setApiConfig({ ...apiConfig, maxTokens: parseInt(e.target.value) })}
+            fullWidth
+            placeholder="Ex: 1000"
+            helperText="Número máximo de tokens na resposta"
+            InputProps={{
+              startAdornment: <NumbersIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+            }}
+            sx={{
+              '& input::placeholder': { color: 'white', opacity: 0.6 },
+              '& input[type=number]': { MozAppearance: 'textfield' },
+              '& input[type=number]::-webkit-outer-spin-button': { WebkitAppearance: 'none', margin: 0 },
+              '& input[type=number]::-webkit-inner-spin-button': { WebkitAppearance: 'none', margin: 0 },
+            }}
+          />
+        </Stack>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={() => setConfigOpen(false)}>Cancelar</Button>
+        <Button onClick={saveConfig} variant="contained">
+          Salvar
+        </Button>
+      </DialogActions>
+    </Dialog>
+
+
     </Box>
   );
 };

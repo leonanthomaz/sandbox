@@ -130,7 +130,7 @@ const NotFound: React.FC = () => {
           variant="contained"
           size="large"
           startIcon={<ArrowBack />}
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
           sx={{
             px: 4,
             py: 1.5,
@@ -147,32 +147,8 @@ const NotFound: React.FC = () => {
             }
           }}
         >
-          Voltar para o início
+          Voltar à página anterior
         </Button>
-
-        {/* Links úteis */}
-        <Stack 
-          direction={{ xs: 'column', sm: 'row' }} 
-          spacing={3} 
-          sx={{ mt: 4, opacity: 0.8 }}
-        >
-          <Button
-            variant="text"
-            size="small"
-            onClick={() => navigate(-1)}
-            sx={{ color: theme.palette.text.secondary }}
-          >
-            Voltar à página anterior
-          </Button>
-          <Button
-            variant="text"
-            size="small"
-            onClick={() => window.location.reload()}
-            sx={{ color: theme.palette.text.secondary }}
-          >
-            Recarregar página
-          </Button>
-        </Stack>
       </Stack>
 
       {/* Footer minimalista */}
@@ -187,7 +163,7 @@ const NotFound: React.FC = () => {
           opacity: 0.6
         }}
       >
-        © {new Date().getFullYear()} Seu App • Página não encontrada
+        © {new Date().getFullYear()} Sandbox • Página não encontrada
       </Box>
     </Box>
   );
